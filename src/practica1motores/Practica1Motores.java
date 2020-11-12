@@ -32,22 +32,25 @@ public class Practica1Motores {
         SolrQuery Query = new SolrQuery();
         QueryResponse rsp;
         SolrDocumentList docs;
-        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
         ArrayList<String> sal;
         Lector leer = new Lector();
         LectorQ consulta = new LectorQ();
-        //cargar("LISA0.001");
+        
+        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
+        //cargar("LISA0.001"); 
         consulta.leer();
         sal = consulta.getSalida();
-        for (int i = 0; i < sal.size(); i++) {
+        for (int i = 0; i < sal.size()-1; i++) {
             q = sal.get(i);
             qt = q.split(" ");
             for (int j = 0; j < 5; j++) {
             query = qt[j];
-            Query.setQuery(query);
-            System.out.println(query);
+            Query.setQuery("Cuerpo:".concat(query));
+            System.out.println(query);     
+
             rsp = solr.query(Query);
             docs = rsp.getResults();
+            System.out.println(docs.size());
 
 	for (int K = 0; K < docs.size(); ++K) {
             System.out.println(docs.get(K));
@@ -67,7 +70,7 @@ public class Practica1Motores {
 
     }
 
-    public void cargar(String n) throws IOException, SolrServerException {
+    static public void cargar(String n) throws IOException, SolrServerException {
         SolrInputDocument docu = new SolrInputDocument();
         Lector leer = new Lector();
         leer.leer(n);
