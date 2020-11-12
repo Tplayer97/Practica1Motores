@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
 
 /**
  *
@@ -17,23 +20,64 @@ import org.apache.solr.common.SolrInputDocument;
  */
 public class Practica1Motores {
 
+    static HttpSolrClient solr;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SolrServerException {
-        
-        HttpSolrClient solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
+        String q;
+        String[] qt;
+        String query;
+        SolrQuery Query = new SolrQuery();
+        QueryResponse rsp;
+        SolrDocumentList docs;
+        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
+        ArrayList<String> sal;
+        Lector leer = new Lector();
+        LectorQ consulta = new LectorQ();
+        //cargar("LISA0.001");
+        consulta.leer();
+        sal = consulta.getSalida();
+        for (int i = 0; i < sal.size(); i++) {
+            q = sal.get(i);
+            qt = q.split(" ");
+            for (int j = 0; j < 5; j++) {
+            query = qt[j];
+            Query.setQuery(query);
+            System.out.println(query);
+            rsp = solr.query(Query);
+            docs = rsp.getResults();
+
+	for (int K = 0; K < docs.size(); ++K) {
+            System.out.println(docs.get(K));
+        }
+            }
+            /*
+            Query.setQuery(query);
+            System.out.println(query);
+            rsp = solr.query(Query);
+            docs = rsp.getResults();
+            System.out.println(docs.size());
+	for (int K = 0; K < docs.size(); ++K) {
+            System.out.println(docs.get(K));
+        }
+*/
+        }
+
+    }
+
+    public void cargar(String n) throws IOException, SolrServerException {
         SolrInputDocument docu = new SolrInputDocument();
         Lector leer = new Lector();
-        
-        leer.leer("LISA0.001");
+        leer.leer(n);
         ArrayList<SolrInputDocument> doc = new ArrayList<SolrInputDocument>();
         doc = leer.getdoc();
         for (int i = 0; i < doc.size(); i++) {
             docu = doc.get(i);
             solr.add(docu);
         }
-            solr.commit();
+        solr.commit();
     }
-    
+
 }
