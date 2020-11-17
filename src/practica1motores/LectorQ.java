@@ -24,30 +24,32 @@ public class LectorQ {
     public LectorQ() {
         Salida = new ArrayList<String>();
     }
-    public void leer() throws FileNotFoundException, IOException{
+
+    public void leer() throws FileNotFoundException, IOException {
         String query;
         File arc = new File(".\\LISA.QUE");
         FileReader fr = new FileReader(arc);
         BufferedReader br = new BufferedReader(fr);
         String[] lineas = new String[130];
-    
+
         String linea = br.readLine();
-                
-        while(linea!=null){
-             query = "";
+
+        while (linea != null) {
+            query = "";
             lineas = linea.split(" ");
-            while(!lineas[lineas.length-1].equals("#")){
-            linea = br.readLine();
-            lineas = linea.split(" ");
-            query = query.concat(linea);
+            while (!lineas[lineas.length - 1].equals("#")) {
+                linea = br.readLine();
+                lineas = linea.split(" ");
+                query = query.concat(linea);
             }
             Salida.add(query);
-                     linea = br.readLine();
+            linea = br.readLine();
         }
         fr.close();
         br.close();
     }
-        public ArrayList<String> getSalida() {
+
+    public ArrayList<String> getSalida() {
         return Salida;
     }
 }
