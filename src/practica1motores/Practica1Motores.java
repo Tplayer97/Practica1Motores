@@ -28,22 +28,30 @@ public class Practica1Motores {
     static HttpSolrClient solr;
 
     public static void main(String[] args) throws IOException, SolrServerException {
-        FileWriter fichero = new FileWriter("./trec_top_file.txt");
-        PrintWriter pw = new PrintWriter(fichero);
 
-        String linea;
-        String q;
-        String[] qt;
-        String query;
-        SolrQuery Query = new SolrQuery();
+
+
+
+
+       
         QueryResponse rsp;
-        SolrDocumentList docs;
-        ArrayList<String> sal;
-        LectorQ consulta = new LectorQ();
+
+
+
 
         solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
-        //cargar("LISA0.001"); 
-        consulta.leer();
+        //cargar("LISA0.001"); ç
+                FileWriter fichero = new FileWriter("./trec_top_file.txt");
+            PrintWriter pw = new PrintWriter(fichero);
+                SolrDocumentList docs;
+                SolrQuery Query = new SolrQuery();
+                LectorQ consulta = new LectorQ();
+                String linea;  
+                String q;
+                String[] qt;
+                String query;
+                ArrayList<String> sal;
+        consulta.leer("Hola");
         sal = consulta.getSalida();
         for (int i = 0; i < sal.size() - 1; i++) {
             query = "";
@@ -53,9 +61,9 @@ public class Practica1Motores {
             for (int j = 0; j < 5; j++) {
                 query = query + " " + qt[j];
             }
-            Query.setQuery("Cuerpo:" + query);
+            Query.setQuery("Cuerpo2:" + query);
 
-            Query.setFields("Titulo", "score");
+            Query.setFields("Titulo2", "score");
 
             rsp = solr.query(Query);
             docs = rsp.getResults();

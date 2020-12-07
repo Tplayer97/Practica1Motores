@@ -25,9 +25,9 @@ public class LectorQ {
         Salida = new ArrayList<String>();
     }
 
-    public void leer() throws FileNotFoundException, IOException {
+    public void leer(String fi) throws FileNotFoundException, IOException {
         String query;
-        File arc = new File(".\\LISA.QUE");
+        File arc = new File(fi);
         FileReader fr = new FileReader(arc);
         BufferedReader br = new BufferedReader(fr);
         String[] lineas = new String[130];

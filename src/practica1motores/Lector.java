@@ -28,7 +28,7 @@ public class Lector {
     public void leer(String fich) throws FileNotFoundException, IOException {
         String titulo = "";
         String cuerpo = "";
-        File arc = new File(".\\".concat(fich));
+        File arc = new File("".concat(fich));
         FileReader fr = new FileReader(arc);
         BufferedReader br = new BufferedReader(fr);
         String[] lineas = new String[130];
@@ -46,22 +46,22 @@ public class Lector {
             linea = br.readLine();
             lineas = linea.split(" ");
 
-            while (!linea.equals("")) {
+            while (!linea.equals("     ") && !linea.equals("")) {
                 titulo = titulo.concat(linea);
                 linea = br.readLine();
-                lineas = linea.split(" ");
+                 lineas = linea.split(" ");
             }
 
-            docu.addField("Titulo", titulo);
+            docu.addField("Titulo2", titulo);
 
             linea = br.readLine();
             lineas = linea.split(" ");
-            while (!linea.equals("********************************************")) {
+            while ( !linea.equals("********************************************")) {
                 cuerpo = cuerpo.concat(linea);
                 linea = br.readLine();
             }
 
-            docu.addField("Cuerpo", cuerpo);
+            docu.addField("Cuerpo2", cuerpo);
 
             doc.add(docu);
             linea = br.readLine();
