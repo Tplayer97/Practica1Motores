@@ -49,14 +49,14 @@ public class Lector {
             while (!linea.equals("     ") && !linea.equals("")) {
                 titulo = titulo.concat(linea);
                 linea = br.readLine();
-                 lineas = linea.split(" ");
+                lineas = linea.split(" ");
             }
 
             docu.addField("Titulo2", titulo);
 
             linea = br.readLine();
             lineas = linea.split(" ");
-            while ( !linea.equals("********************************************")) {
+            while (!linea.equals("********************************************")) {
                 cuerpo = cuerpo.concat(linea);
                 linea = br.readLine();
             }

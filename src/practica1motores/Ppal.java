@@ -19,7 +19,6 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import static practica1motores.Practica1Motores.solr;
 
 public class Ppal extends javax.swing.JFrame {
 
@@ -157,31 +156,29 @@ public class Ppal extends javax.swing.JFrame {
     }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String query;
+        String linea;
+        String Documento = "";
+        String q;
+        String Salida;
+        String[] qt;
+
+        ArrayList<String> sal;
+        QueryResponse rsp;
         for (int k = 0; k < archivosQ.length; k++) {
             try {
                 FileWriter fichero;
-
                 fichero = new FileWriter("./trec_top_file" + k + ".txt");
                 PrintWriter pw = new PrintWriter(fichero);
-
                 SolrDocumentList docs;
                 SolrQuery Query = new SolrQuery();
                 LectorQ consulta = new LectorQ();
-                String linea;
-                String q;
-                String Salida;
-                String[] qt;
-                String query;
-                ArrayList<String> sal;
-                QueryResponse rsp;
-
                 consulta.leer(archivosQ[k].getAbsolutePath());
-
                 sal = consulta.getSalida();
                 for (int i = 0; i < sal.size() - 1; i++) {
                     query = "";
                     linea = "";
-                    Salida = "";
+                    Salida = "Query " + i + "\n";
                     q = sal.get(i);
                     qt = q.split(" ");
                     for (int j = 0; j < 5; j++) {
@@ -189,19 +186,21 @@ public class Ppal extends javax.swing.JFrame {
                     }
                     Query.setQuery("Cuerpo2:" + query);
 
-                    Query.setFields("Titulo2", "score");
+                    Query.setFields("Titulo2", "score", "Document");
 
                     rsp = solr.query(Query);
 
                     docs = rsp.getResults();
-                    for (int K = 0; K < docs.size(); ++K) {
-                        System.out.println(docs.get(K));
-                        Salida = Salida + docs.get(K).toString();
 
-                        linea = i + 1 + " Q0 " + K + 1 + " " + docs.get(K).getFieldValue("score") + " " + "ETSI";
+                    for (int K = 0; K < docs.size(); ++K) {
+
+                        Salida = Salida + docs.get(K).toString() + "\n";
+
+                        linea = (i + 1) + " Q0 " + docs.get(K).getFieldValue("Document").toString().substring(1, docs.get(K).getFieldValue("Document").toString().length() - 1) + " " + (K + 1) + " " + docs.get(K).getFieldValue("score") + " " + "ETSI";
                         pw.println(linea);
                     }
-                        jTextArea1.setText(Salida);
+
+                    jTextArea1.append(Salida);
                 }
                 fichero.close();
             } catch (IOException ex) {

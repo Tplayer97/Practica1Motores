@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package practica1motores;
 
 import java.io.BufferedReader;
@@ -19,10 +15,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 
-/**
- *
- * @author Tplayer
- */
+
 public class Practica1Motores {
 
     static HttpSolrClient solr;
@@ -39,8 +32,8 @@ public class Practica1Motores {
 
 
 
-        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/micoleccion").build();
-        //cargar("LISA0.001"); ç
+        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/pruebas").build();
+        //cargar("LISA0.001");
                 FileWriter fichero = new FileWriter("./trec_top_file.txt");
             PrintWriter pw = new PrintWriter(fichero);
                 SolrDocumentList docs;
@@ -51,7 +44,7 @@ public class Practica1Motores {
                 String[] qt;
                 String query;
                 ArrayList<String> sal;
-        consulta.leer("Hola");
+        consulta.leer("C:\\Users\\jose_\\Documents\\LISA\\LISA.QUE");
         sal = consulta.getSalida();
         for (int i = 0; i < sal.size() - 1; i++) {
             query = "";
@@ -67,10 +60,11 @@ public class Practica1Motores {
 
             rsp = solr.query(Query);
             docs = rsp.getResults();
+            System.out.println("query " + i );
             System.out.println(docs.size());
             for (int K = 0; K < docs.size(); ++K) {
                 System.out.println(docs.get(K));
-                linea = i + 1 + " Q0 " + K + 1 + " " + docs.get(K).getFieldValue("score") + " " + "ETSI";
+                linea = (i + 1) + " Q0 " + (K + 1) + " " + docs.get(K).getFieldValue("score") + " " + "ETSI";
                 pw.println(linea);
             }
 
