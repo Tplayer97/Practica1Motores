@@ -162,7 +162,8 @@ public class Ppal extends javax.swing.JFrame {
         String q;
         String Salida;
         String[] qt;
-
+        int j = 0;
+        int m =0;
         ArrayList<String> sal;
         QueryResponse rsp;
         for (int k = 0; k < archivosQ.length; k++) {
@@ -181,15 +182,23 @@ public class Ppal extends javax.swing.JFrame {
                     Salida = "Query " + i + "\n";
                     q = sal.get(i);
                     qt = q.split(" ");
-                    for (int j = 0; j < 5; j++) {
-                        query = query + " " + qt[j];
+                    j = 0;
+                    m = 0;
+                    while( j < 5 && m < qt.length - 1) {
+                        if(!stopw(qt[m])){
+                        j++;
+                        query = query + " " + qt[m];
+                            System.out.println(query);
+                        }
+                        m++;
                     }
+                   
                     Query.setQuery("Cuerpo2:" + query);
-
+                    System.out.println(query.split(" ").length);
                     Query.setFields("Titulo2", "score", "Document");
-
+                 
                     rsp = solr.query(Query);
-
+                    
                     docs = rsp.getResults();
 
                     for (int K = 0; K < docs.size(); ++K) {
@@ -239,7 +248,15 @@ public class Ppal extends javax.swing.JFrame {
         }
         solr.commit();
     }
-
+    
+ private boolean stopw(String s){
+ return "I".equals(s) || "AM".equals(s) || "MY".equals(s) || "IN".equals(s) || "ANY".equals(s) || "THE".equals(s) || "WOULD".equals(s) 
+         || "BE".equals(s) || "AN".equals(s) || "AS".equals(s) || "ARE".equals(s) || "NO".equals(s) || "BUT".equals(s) || "FOR".equals(s) 
+         || "INTERESTED".equals(s) || "ALMOST".equals(s) || "ONE".equals(s) || "ON".equals(s) || "IS".equals(s) || "AND".equals(s) || "OF".equals(s)
+         || "AT".equals(s) || "OR".equals(s) || s.contains("(") || s.contains(":")|| s.contains(")");
+ } 
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
